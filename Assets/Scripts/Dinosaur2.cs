@@ -5,6 +5,7 @@ using UnityEngine;
 public class Dinosaur2 : MonoBehaviour
 {
     // Variables
+    public GameManager gameManager;
     public GameObject stand;
     public GameObject crouch;
 
@@ -22,6 +23,14 @@ public class Dinosaur2 : MonoBehaviour
         {
             stand.SetActive(true);
             crouch.SetActive(false);
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("obstacle"))
+        {
+            gameManager.GameOver();
         }
     }
 }

@@ -1,20 +1,21 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Dinosaur : MonoBehaviour
 {
     // Variables
+    public GameManager gameManager;
     public GameObject stand;
     public GameObject crouch;
     private Rigidbody2D rb;
     private bool isJumping;
+    private AudioSource jumpSound;
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         isJumping = false;
+        jumpSound = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -25,6 +26,7 @@ public class Dinosaur : MonoBehaviour
         {
             rb.velocity = new Vector3(0, 20, 0);
             isJumping = true;
+            jumpSound.Play();
         }
 
         // Agacharse
@@ -41,6 +43,14 @@ public class Dinosaur : MonoBehaviour
         if (isJumping == true)
         {
             isJumping = false;
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("obstacle"))
+        {
+            gameManager.GameOver();
         }
     }
 }
