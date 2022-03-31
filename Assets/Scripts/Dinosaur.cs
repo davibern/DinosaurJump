@@ -22,19 +22,10 @@ public class Dinosaur : MonoBehaviour
     void Update()
     {
         // Salto
-        if (Input.GetKey(KeyCode.Space) && isJumping == false)
-        {
-            rb.velocity = new Vector3(0, 20, 0);
-            isJumping = true;
-            jumpSound.Play();
-        }
+        jumpButton();
 
         // Agacharse
-        if (Input.GetKey("down") && isJumping == false)
-        {
-            crouch.SetActive(true);
-            stand.SetActive(false);
-        }
+        crouchButton();
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -51,6 +42,26 @@ public class Dinosaur : MonoBehaviour
         if (collision.CompareTag("obstacle"))
         {
             gameManager.GameOver();
+        }
+    }
+
+    public void jumpButton()
+    {
+        if (Input.GetKey(KeyCode.Space) && isJumping == false)
+        {
+            rb.velocity = Vector2.up * 20;
+            isJumping = true;
+            jumpSound.Play();
+            Debug.Log("Salto");
+        }
+    }
+
+    public void crouchButton()
+    {
+        if (Input.GetKey("down") && isJumping == false)
+        {
+            crouch.SetActive(true);
+            stand.SetActive(false);
         }
     }
 }
